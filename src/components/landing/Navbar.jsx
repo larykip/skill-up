@@ -6,8 +6,8 @@ import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@rad
 import { ChevronDown, CircleX } from "lucide-react";
 import { options } from "@/lib/data";
 import { Dialog, DialogTrigger } from "../ui/dialog";
-import SigninModal from "../authentication/SigninModal";
-import SignupModal from "../authentication/SignupModal";
+import SigninModal from "../authentication/AuthModal";
+import AuthModal from "../authentication/AuthModal";
 
 const Navbar = () => {
   const [selectedOption, setSelectedOption] = useState(options[0]);
@@ -75,8 +75,8 @@ const Navbar = () => {
         </DropdownMenu>
       </div>
       <div className="flex space-x-10">
-        <SignupModal/>
-        <SigninModal/>
+        <AuthModal status = 'signup'/>
+        <AuthModal status = 'signin'/>
       </div>
     </div>
   );
