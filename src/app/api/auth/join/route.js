@@ -1,6 +1,7 @@
 import connectDB from '@/lib/mongodb';
 import User from '@/models/userModel';
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 import { NextResponse } from 'next/server';
 
 export async function POST (req, res) {
@@ -35,10 +36,16 @@ export async function POST (req, res) {
         const hashedPassword = await bcrypt.hash(password, 10)
         
         // Create user
-        await User.create({ email, password: hashedPassword })
+        const newUser = await User.create({ email, password: hashedPassword, role: 'user' })
 
         // Return success message
-        return new NextResponse(JSON.stringify({ message: 'Sign up was successful. Thank you!' }), { status: 200, headers: { 'Content-Type': 'application/json' } })
+        return new NextResponse(
+            JSON.stringify({ 
+              message: 'Sign up was successful. Thank you!', 
+              role: newUser.role // Ensure role is sent in response
+            }), 
+            { status: 200, headers: { 'Content-Type': 'application/json' } }
+          );
     } catch(err){
         return new NextResponse(JSON.stringify({ message: 'An error occurred during registration.' }), { status: 500 })
     }

@@ -1,15 +1,15 @@
-"use client"
+'use client'
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { DropdownMenu } from "../ui/dropdown-menu";
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { ChevronDown, CircleX } from "lucide-react";
 import { options } from "@/lib/data";
-import { Dialog, DialogTrigger } from "../ui/dialog";
-import SigninModal from "../authentication/AuthModal";
 import AuthModal from "../authentication/AuthModal";
+import { useAuthModal } from "@/context/AuthContext";
 
 const Navbar = () => {
+  const { openModal } = useAuthModal();
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [searchItem, setSearchItem] = useState("");
 
@@ -75,9 +75,14 @@ const Navbar = () => {
         </DropdownMenu>
       </div>
       <div className="flex space-x-10">
-        <AuthModal status = 'signup'/>
-        <AuthModal status = 'signin'/>
+        <button className="bg-slate-600 text-white px-4 py-2 rounded-lg" onClick={() => openModal("signin")}>
+          Sign In
+        </button>
+        <button className="bg-white text-slate-600 px-4 py-2 rounded-lg border ml-2" onClick={() => openModal("signup")}>
+          Sign Up
+        </button>
       </div>
+      <AuthModal />
     </div>
   );
 };
